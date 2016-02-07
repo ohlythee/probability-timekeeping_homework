@@ -21,6 +21,14 @@ but before you start, you must learn first the [basics of using git](https://hel
 1. Create a pull request to this repository. If you don't know how, check out [how you can create a pull request on github](https://help.github.com/articles/creating-a-pull-request/).
 1. Your teacher will review your code and merge it to this repository.
 
+# Screenshot
+![logo](assets/snap_0.png "Screenshot")
+
+
+## Game Engine to Use
+* Godot is an advanced, feature packed, multi-platform 2D and 3D game engine. It provides a huge set of common tools, so you can just focus on making your game without reinventing the wheel.
+Godot is is completely Free and Open Source under the very permissive MIT License. No strings attached, no royalties, nothing. Your game is yours, down to the last line of engine code. [Download link] (http://www.godotengine.org/documents/188)
+
 ## Resource Credits
 * Game Character / Agent - [Superpowers Game Engine Assets](http://superpowers-html5.com/)
 * Background Art - [BuildBox Game Engine Assets](https://www.buildbox.com/)
