@@ -38,10 +38,7 @@ func _calc_critical_hit():
 	var percent_probability1 = get_node("hud/percent_probability1/LineEdit_percent_probability").get_text().to_float()
 	var current_LP = get_node("hud/lifebar").get_value()
 	if current_LP > 0 :
-	  while percent_probability1 > 50 
-	else
-	current_LP > 0 :
-	current_LP -= base_damage+base_damage*(critical_hit/100)
+		current_LP -= base_damage+base_damage*(critical_hit/100)
 	
 	get_node("agent/Viewport/Spatial/DamageAnimation").play("bind_damage")
 	# apply damage to the health bar
