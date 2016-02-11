@@ -1,0 +1,95 @@
+# WVSU | IICT | IT227
+# Probability and Time Keeping Systems
+# Homework
+
+extends Node2D
+func _show_heal_box(var val):
+	get_node("hud/damage_box/Control/Label_popup_damage").set_text("Heal! + " + str(val))
+	get_node("hud/damage_box/AnimationPlayer").play("appear")
+	
+func _show_calc_box(var val):
+	get_node("hud/damage_box/Control/Label_popup_damage").set_text("Ouch! + " + str(val))
+	get_node("hud/damage_box/AnimationPlayer").play("appear")
+
+func _calc_base_damage():
+	# get the base damage from the lineEdit control
+	var base_damage = get_node("hud/base damage/LineEdit_base_damage").get_text().to_float()
+	# check if the current life point is != 0
+	# if true, apply the base damage to
+	# the current LP
+	var current_LP = get_node("hud/lifebar").get_value()
+	if current_LP > 0 :
+		current_LP -= base_damage
+	
+	get_node("agent/Viewport/Spatial/DamageAnimation").play("bind_damage")
+	# apply damage to the health bar
+	get_node("hud/lifebar").set_value(current_LP)
+	
+	# play calc box animation
+	_show_calc_box(base_damage)
+	
+	# check health
+	_check_health()
+func _calc_critical_hit():
+
+	var base_damage = get_node("hud/base damage/LineEdit_base_damage").get_text().to_float()
+	#get the critical multiplier from the line edit control
+	var critical_hit = get_node("hud/critical_hit/LineEdit_crit").get_text().to_float()
+	var percent_probability1 = get_node("hud/percent_probability1/LineEdit_percent_probability").get_text().to_float()
+	var current_LP = get_node("hud/lifebar").get_value()
+	if current_LP > 0 :
+		current_LP -= base_damage+base_damage*(critical_hit/100)
+	
+	get_node("agent/Viewport/Spatial/DamageAnimation").play("bind_damage")
+	# apply damage to the health bar
+	get_node("hud/lifebar").set_value(current_LP)
+	
+	# play calc box animation
+	_show_calc_box(base_damage+base_damage*(critical_hit/100))
+	
+	# check health
+	_check_health()
+	
+
+func _timeout():
+	print("Timeout")
+
+func _calc_heal_time():
+	
+	var current_LP = get_node("hud/lifebar").get_value()
+	if current_LP > 0 :
+		current_LP += 10
+		
+	get_node("agent/Viewport/Spatial/DefaultAnimation").play("fight_pose")
+	get_node("bg_animator").play("default_scroll")
+	get_node("hud/lifebar").set_value(current_LP)
+	
+	# play calc box animation
+	_show_heal_box(10)
+	
+	# check health
+	_check_health()
+
+func _heal_full():
+	get_node("hud/lifebar").set_value(100)
+	get_node("agent/Viewport/Spatial/DefaultAnimation").play("fight_pose")
+	get_node("bg_animator").play("default_scroll")
+
+# current health checker
+func _check_health():
+	# test 1 : the character dies
+	if get_node("hud/lifebar").get_value() == 0:
+		get_node("agent/Viewport/Spatial/DefaultAnimation").play("bind_pose")
+		get_node("bg_animator").stop()
+		
+
+
+func _ready():
+	get_node("hud/damage").connect("pressed", self, "_calc_base_damage")
+	get_node("hud/damage_crit").connect("pressed",self, "_calc_critical_hit")
+	get_node("hud/heal_full").connect("pressed", self, "_heal_full")
+	get_node("hud/heal_time").connect("pressed",self, "_calc_heal_time")
+	get_node("hud/Timer").connect("timeout", self, "_timeout")
+
+
+
